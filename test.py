@@ -4,7 +4,6 @@ from transformers import pipeline
 from textblob import TextBlob
 from gtts import gTTS
 from pydub import AudioSegment
-from io import BytesIO
 
 # Set the path to the FFmpeg executable
 AudioSegment.converter = r"C:/FFmpeg/ffmpeg.exe"
