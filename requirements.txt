@@ -1,0 +1,11 @@
+streamlit 
+PyPDF2
+transformers
+textblob
+gtts
+pydub
+tempfile
+io
+dotenv
+langchain_groq
+os
