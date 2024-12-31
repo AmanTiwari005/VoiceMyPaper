@@ -4,7 +4,6 @@ from transformers import pipeline
 from textblob import TextBlob
 from gtts import gTTS
 from pydub import AudioSegment
-import tempfile
 from io import BytesIO
 
 # Set the path to the FFmpeg executable
@@ -58,11 +57,11 @@ def text_to_speech_gtts(text, sentiment_adjustment=False):
     else:
         speech_rate = 1.0
 
-    # Save audio to a temporary file
-    with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as tmp_file:
-        tts = gTTS(text=text, lang='en', slow=False)
-        tts.save(tmp_file.name)  # Save the audio to the temp file
-        return tmp_file.name  # Return the path to the saved audio file
+    # # Save audio to a temporary file
+    # with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as tmp_file:
+    #     tts = gTTS(text=text, lang='en', slow=False)
+    #     tts.save(tmp_file.name)  # Save the audio to the temp file
+    #     return tmp_file.name  # Return the path to the saved audio file
 
 def merge_audio_with_background(audio_file_path, background_music):
     if not (audio_file_path and background_music):
@@ -78,11 +77,11 @@ def merge_audio_with_background(audio_file_path, background_music):
     # Overlay the two audio segments
     combined = speech.overlay(background)
 
-    # Save the combined audio to a temporary file
-    temp_audio_path = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3").name
-    combined.export(temp_audio_path, format="mp3")
+    # # Save the combined audio to a temporary file
+    # temp_audio_path = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3").name
+    # combined.export(temp_audio_path, format="mp3")
 
-    return temp_audio_path  # Return the path to the saved audio file
+    # return temp_audio_path  # Return the path to the saved audio file
 
 # Streamlit application layout
 st.title("Research Paper to Podcast Converter 🎙️")
