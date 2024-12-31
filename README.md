@@ -1,32 +1,84 @@
 # Research Paper to Podcast Converter 🎙️
 
-This project provides a tool to convert research papers (in PDF format) into audio podcasts. The app extracts text from a PDF, optionally summarizes it, converts it into speech, and allows you to add background music to the generated podcast.
+This Streamlit application converts research paper PDFs into engaging podcasts. It extracts text from PDFs, summarizes the content, and generates speech audio. Optionally, the voice tone can be adjusted based on sentiment analysis, and background music can be added for a richer auditory experience.
 
 ## Features
 
-- **PDF Text Extraction**: Upload a research paper in PDF format, and the text will be extracted for further processing.
-- **Text Summarization**: Optionally summarize the content of the research paper to shorten the audio.
-- **Text-to-Speech Conversion**: Converts the extracted text into speech using Google TTS (gTTS).
-- **Sentiment-Based Voice Adjustment**: Adjusts the speech tone based on sentiment analysis of the text.
-- **Background Music**: Merge generated speech with your background music (optional).
+- Extract text from PDF files
+- Summarize the content of PDFs
+- Analyze sentiment of the text
+- Convert text to speech using gTTS
+- Add background music to the generated podcast
+- Utilize the GROQ model for summarization
 
-## Requirements
+## Installation
 
-- Python 3.7+
-- Streamlit
-- PyPDF2
-- Transformers (for GPT models)
-- TextBlob
-- gTTS (Google Text-to-Speech)
-- pydub (for audio manipulation)
-- langchain_groq (for integrating ChatGroq)
-- dotenv (for loading environment variables)
-- FFmpeg (for audio file manipulation)
+1. Clone the repository:
 
-## Setup
+    ```bash
+    git clone https://github.com/your-username/research-paper-to-podcast.git
+    cd research-paper-to-podcast
+    ```
 
-1. **Clone this repository**:
+2. Create and activate a virtual environment (optional but recommended):
 
-   ```bash
-   git clone https://github.com/yourusername/research-paper-to-podcast.git
-   cd research-paper-to-podcast
+    ```bash
+    python -m venv env
+    source env/bin/activate  # On Windows, use `env\Scripts\activate`
+    ```
+
+3. Install the required packages:
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4. Set up your environment variables by creating a `.env` file and adding your GROQ API key:
+
+    ```env
+    GROQ_API_KEY=your_groq_api_key_here
+    ```
+
+## Usage
+
+1. Run the Streamlit application:
+
+    ```bash
+    streamlit run app.py
+    ```
+
+2. Upload your PDF document using the sidebar and choose your settings.
+
+3. Click "Generate Podcast" to create your podcast.
+
+## Code Overview
+
+### Main Application
+
+The main application is contained in `app.py` and includes:
+
+- `init_groq_model`: Initializes the GROQ model for summarization.
+- `extract_text_from_pdf`: Extracts text from PDF files.
+- `chunk_text`: Splits text into manageable chunks.
+- `summarize_text`: Summarizes the text using the GROQ model.
+- `analyze_sentiment`: Analyzes the sentiment of the text using TextBlob.
+- `text_to_speech_gtts`: Converts text to speech using gTTS, with optional sentiment-based voice adjustment.
+- `merge_audio_with_background`: Merges the generated speech audio with background music.
+- Streamlit layout and user interactions.
+
+### Additional Files
+
+- `requirements.txt`: Lists all the dependencies needed for the project.
+- `.env`: Contains the environment variables, specifically the GROQ API key.
+
+## Acknowledgements
+
+- [Streamlit](https://streamlit.io/)
+- [PyPDF2](https://pypi.org/project/PyPDF2/)
+- [HuggingFace](https://huggingface.co/)
+- [TextBlob](https://textblob.readthedocs.io/en/dev/)
+- [gTTS](https://pypi.org/project/gTTS/)
+- [pydub](https://pypi.org/project/pydub/)
+- [GROQ](https://groq.com/)
+
+Feel free to fork this repository and customize it to suit your needs. Contributions are welcome!
