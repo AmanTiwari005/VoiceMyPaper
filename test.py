@@ -63,24 +63,28 @@ def text_to_speech_gtts(text, sentiment_adjustment=False):
     #     return tmp_file.name  # Return the path to the saved audio file
 
 def merge_audio_with_background(audio_file_path, background_music):
-    if not (audio_file_path and background_music):
-        raise ValueError("Both audio file and background music must be provided.")
+    if not audio_file_path:
+        raise ValueError("Audio file path must be provided.")
+    if not background_music:
+        raise ValueError("Background music file must be uploaded.")
+
+    st.write(f"Merging audio: {audio_file_path} with background: {background_music}")
 
     # Read the audio file directly from the file path
     speech = AudioSegment.from_file(audio_file_path, format="mp3")
 
-    # Read the background music immediately
-    background_data = background_music.read()  # Read the uploaded file
-    background = AudioSegment.from_file(BytesIO(background_data), format="mp3")
+    # Read the background music from the file path
+    background = AudioSegment.from_file(background_music, format="mp3")
 
     # Overlay the two audio segments
     combined = speech.overlay(background)
 
-    # # Save the combined audio to a temporary file
-    # temp_audio_path = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3").name
-    # combined.export(temp_audio_path, format="mp3")
+    # Save the combined audio to a new file
+    combined_audio_path = "combined_podcast.mp3"
+    combined.export(combined_audio_path, format="mp3")
 
-    # return temp_audio_path  # Return the path to the saved audio file
+    return combined_audio_path
+
 
 # Streamlit application layout
 st.title("Research Paper to Podcast Converter 🎙️")
@@ -102,12 +106,21 @@ if st.button("Generate Podcast"):
 
         with st.spinner("Generating podcast..."):
             audio_file_path = text_to_speech_gtts(pdf_text, sentiment_adjustment=sentiment_adjustment)
+        st.write(f"Generated audio file path: {audio_file_path}")  # Debug check
 
+        # Handle background music if uploaded
         if background_music:
+            # Save background music to a file
+            background_music_path = "background_music.mp3"
+            with open(background_music_path, "wb") as f:
+                f.write(background_music.read())
+            st.write(f"Background music file saved at: {background_music_path}")  # Debug check
+
+            # Merge the audio with background music
             with st.spinner("Merging audio with background music..."):
-                podcast_file = merge_audio_with_background(audio_file_path, background_music)
-            st.success(f"Podcast generated and saved as {podcast_file}")
+                podcast_file = merge_audio_with_background(audio_file_path, background_music_path)
+            st.success(f"Podcast generated with background music as {podcast_file}")
             st.audio(podcast_file)
         else:
-            st.success(f"Podcast generated and saved as {audio_file_path}")
+            st.success(f"Podcast generated as {audio_file_path}")
             st.audio(audio_file_path)
